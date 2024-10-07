@@ -291,14 +291,4 @@ window.config = {
       keys: ['9'],
     },
   ],
-
-  //custom changes
-
-  studyPrefetcher: {
-    enabled: true,
-    displaySetCount: 3,  // Prefetch three display sets
-    maxNumPrefetchRequests: 10,  // Up to ten concurrent requests
-    order: 'closest',
-}
-
 };
