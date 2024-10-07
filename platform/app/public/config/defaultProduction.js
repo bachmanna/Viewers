@@ -13,23 +13,29 @@ window.config = {
   // below flag is for performance reasons, but it might not work for all servers
   showWarningMessageForCrossOrigin: false,
   showCPUFallbackMessage: false,
-  showLoadingIndicator: false,
+  showLoadingIndicator: true,
   experimentalStudyBrowserSort: false,
   strictZSpacingForVolumeViewport: true,
   groupEnabledModesFirst: true,
+
+  //custom changes
+
+  disableEditing: true,
+  //omitQuotationForMultipartRequest: true,
+  useNorm16Texture: true,
   investigationalUseDialog: {
     option: 'never',
   },
   useExperimentalUI: false,
-  maxNumRequests: {
-    interaction: 100,
-    thumbnail: 75,
-    // Prefetch number is dependent on the http protocol. For http 2 or
-    // above, the number of requests can be go a lot higher.
-    prefetch: 25,
-  },
+  // maxNumRequests: {
+  //   interaction: 100,
+  //   thumbnail: 75,
+  //   // Prefetch number is dependent on the http protocol. For http 2 or
+  //   // above, the number of requests can be go a lot higher.
+  //   prefetch: 25,
+  // },
   // filterQueryParam: false,
-  defaultDataSourceName: 'dicomweb',
+  defaultDataSourceName: 'dicomjson',
   /* Dynamic config allows user to pass "configUrl" query string this allows to load config without recompiling application. The regex will ensure valid configuration source */
   dangerouslyUseDynamicConfig: {
     enabled: true,
@@ -40,8 +46,22 @@ window.config = {
     // regex: /(https:\/\/hospital.com(\/[0-9A-Za-z.]+)*)|(https:\/\/othersite.com(\/[0-9A-Za-z.]+)*)/
     regex: /.*/,
   },
-  dataSources: [
 
+  studyPrefetcher: {
+    enabled: true,
+    order: 'closest', // top-bottom or bottom-up or outwards
+    displaySetCount: 3, // amount of displaySets up or down
+    maxNumPrefetchRequests: 100,
+    displayProgressBar: true,
+  },
+  maxNumRequests: {
+    interaction: 100,
+    thumbnail: 75,
+    // Prefetch number is dependent on the http protocol. For http 2 or
+    // above, the number of requests can be go a lot higher.
+    prefetch: 25,
+  },
+  dataSources: [
     {
       namespace: '@ohif/extension-default.dataSourcesModule.dicomwebproxy',
       sourceName: 'dicomwebproxy',
@@ -92,6 +112,21 @@ window.config = {
   //       ))
   //   },
   // },
+
+  whiteLabeling: {
+    createLogoComponentFn: function (React) {
+      return React.createElement(
+        'a',
+        {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          className: 'text-white underline',
+          href: 'https://softmedtech.com/',
+        },
+        React.createElement('h5', {}, 'TeleRad PACS Viewer')
+      );
+    },
+  },
   hotkeys: [
     {
       commandName: 'incrementActiveViewport',
@@ -122,16 +157,16 @@ window.config = {
     { commandName: 'resetViewport', label: 'Reset', keys: ['space'] },
     { commandName: 'nextImage', label: 'Next Image', keys: ['down'] },
     { commandName: 'previousImage', label: 'Previous Image', keys: ['up'] },
-    {
-      commandName: 'previousViewportDisplaySet',
-      label: 'Previous Series',
-      keys: ['pagedown'],
-    },
-    {
-      commandName: 'nextViewportDisplaySet',
-      label: 'Next Series',
-      keys: ['pageup'],
-    },
+    // {
+    //   commandName: 'previousViewportDisplaySet',
+    //   label: 'Previous Series',
+    //   keys: ['pagedown'],
+    // },
+    // {
+    //   commandName: 'nextViewportDisplaySet',
+    //   label: 'Next Series',
+    //   keys: ['pageup'],
+    // },
     {
       commandName: 'setToolActive',
       commandOptions: { toolName: 'Zoom' },
@@ -185,12 +220,12 @@ window.config = {
       keys: ['9'],
     },
   ],
-   //custom changes
+  //custom changes
 
-   studyPrefetcher: {
-    enabled: true,
-    displaySetCount: 3,  // Prefetch three display sets
-    maxNumPrefetchRequests: 10,  // Up to ten concurrent requests
-    order: 'closest',
-}
+  // studyPrefetcher: {
+  //   enabled: true,
+  //   displaySetCount: 2, // Prefetch three display sets
+  //   maxNumPrefetchRequests: 5, // Up to ten concurrent requests
+  //   order: 'closest',
+  // },
 };
